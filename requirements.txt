@@ -1,0 +1,7 @@
+# Django 5.2 es la versión LTS: funciona con Python 3.10 a 3.14.
+Django>=5.2,<5.3
+# Lee el archivo .env (claves y configuración local).
+python-dotenv>=1.0,<2
+
+# Si un módulo necesita otra librería (por ejemplo "requests" para el clima
+# o el SDK de un LLM), añadidla aquí en el mismo commit en que la uséis.

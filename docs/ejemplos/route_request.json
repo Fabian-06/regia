@@ -1,0 +1,8 @@
+{
+  "origin": "del-golfo",
+  "destination": "alameda",
+  "profile": "fastest",
+  "when": null,
+  "algorithm": "astar",
+  "trace": true
+}

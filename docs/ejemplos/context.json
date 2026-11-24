@@ -1,0 +1,23 @@
+{
+  "when": "2026-11-16T08:15:00-06:00",
+  "service_open": true,
+  "headways": {
+    "L1": 5.0,
+    "L2": 6.0,
+    "L3": 6.0
+  },
+  "weather": {
+    "temperature_c": 21.5,
+    "precipitation_mm": 0.4,
+    "is_raining": true
+  },
+  "incidents": [
+    {
+      "kind": "line_delay",
+      "station_id": null,
+      "line_id": "L2",
+      "extra_minutes": 4.0,
+      "description": "Línea 2 con retrasos por revisión de un tren"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{% extends "web/base.html" %}
+{% load static %}
+
+{% block title %}Laboratorio A*{% endblock %}
+
+{% block content %}
+  {# PENDIENTE (persona 6). Las tres zonas son una propuesta. #}
+
+  <section id="lab-controls">
+    <h1>Laboratorio A*</h1>
+    <p class="pending">Pendiente: origen, destino y controles (paso siguiente, reproducir, reiniciar).</p>
+  </section>
+
+  <section id="lab-view">
+    <p class="pending">Pendiente: mapa con la lista abierta, la cerrada y el nodo actual, y tabla con g, h y f.</p>
+  </section>
+
+  <section id="lab-compare">
+    <p class="pending">Pendiente: nodos expandidos por A* y por Dijkstra para la misma ruta.</p>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'lab/js/lab.js' %}"></script>
+{% endblock %}

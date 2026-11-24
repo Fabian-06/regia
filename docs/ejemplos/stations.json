@@ -1,0 +1,58 @@
+{
+  "stations": [
+    {
+      "id": "del-golfo",
+      "name": "Del Golfo",
+      "lat": 25.6851,
+      "lon": -100.3066,
+      "line_ids": [
+        "L1"
+      ],
+      "underground": false,
+      "has_elevator": true
+    },
+    {
+      "id": "cuauhtemoc",
+      "name": "Cuauhtémoc",
+      "lat": 25.6862,
+      "lon": -100.317,
+      "line_ids": [
+        "L1",
+        "L2"
+      ],
+      "underground": true,
+      "has_elevator": true
+    },
+    {
+      "id": "alameda",
+      "name": "Alameda",
+      "lat": 25.677,
+      "lon": -100.318,
+      "line_ids": [
+        "L2"
+      ],
+      "underground": true,
+      "has_elevator": false
+    }
+  ],
+  "lines": [
+    {
+      "id": "L1",
+      "name": "Línea 1",
+      "color": "#F5A623",
+      "station_ids": [
+        "cuauhtemoc",
+        "del-golfo"
+      ]
+    },
+    {
+      "id": "L2",
+      "name": "Línea 2",
+      "color": "#5CB85C",
+      "station_ids": [
+        "cuauhtemoc",
+        "alameda"
+      ]
+    }
+  ]
+}

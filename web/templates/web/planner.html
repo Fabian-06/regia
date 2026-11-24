@@ -1,0 +1,29 @@
+{% extends "web/base.html" %}
+{% load static %}
+
+{% block title %}Planificador{% endblock %}
+
+{% block content %}
+  {# PENDIENTE (persona 5). Las cuatro zonas son una propuesta: reorganizadlas a vuestro gusto. #}
+
+  <section id="planner-form">
+    <h1>Planificador de rutas</h1>
+    <p class="pending">Pendiente: origen, destino, perfil y hora.</p>
+  </section>
+
+  <section id="map">
+    <p class="pending">Pendiente: mapa interactivo de las líneas 1, 2 y 3.</p>
+  </section>
+
+  <section id="result">
+    <p class="pending">Pendiente: itinerario, tiempo total y transbordos.</p>
+  </section>
+
+  <section id="chat">
+    <p class="pending">Pendiente: conversación con el asistente.</p>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'web/js/planner.js' %}"></script>
+{% endblock %}

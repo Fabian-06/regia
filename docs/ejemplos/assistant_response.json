@@ -1,0 +1,39 @@
+{
+  "request": {
+    "origin": "del-golfo",
+    "destination": "alameda",
+    "profile": "fastest",
+    "when": null
+  },
+  "result": {
+    "found": true,
+    "steps": [
+      {
+        "station_id": "del-golfo",
+        "line_id": "L1",
+        "minutes": 2.5
+      },
+      {
+        "station_id": "cuauhtemoc",
+        "line_id": "L1",
+        "minutes": 4.5
+      },
+      {
+        "station_id": "cuauhtemoc",
+        "line_id": "L2",
+        "minutes": 13.5
+      },
+      {
+        "station_id": "alameda",
+        "line_id": "L2",
+        "minutes": 15.5
+      }
+    ],
+    "total_minutes": 15.5,
+    "transfers": 1,
+    "nodes_expanded": 4,
+    "algorithm": "astar",
+    "trace": []
+  },
+  "explanation": "Sales de Del Golfo en la Línea 1 y cambias a la Línea 2 en Cuauhtémoc. Son unos 16 minutos; la Línea 2 circula con 4 minutos de retraso."
+}

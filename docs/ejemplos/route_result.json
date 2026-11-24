@@ -1,0 +1,134 @@
+{
+  "found": true,
+  "steps": [
+    {
+      "station_id": "del-golfo",
+      "line_id": "L1",
+      "minutes": 2.5
+    },
+    {
+      "station_id": "cuauhtemoc",
+      "line_id": "L1",
+      "minutes": 4.5
+    },
+    {
+      "station_id": "cuauhtemoc",
+      "line_id": "L2",
+      "minutes": 13.5
+    },
+    {
+      "station_id": "alameda",
+      "line_id": "L2",
+      "minutes": 15.5
+    }
+  ],
+  "total_minutes": 15.5,
+  "transfers": 1,
+  "nodes_expanded": 4,
+  "algorithm": "astar",
+  "trace": [
+    {
+      "node": [
+        "del-golfo",
+        "L1"
+      ],
+      "g": 2.5,
+      "h": 1.1,
+      "f": 3.6,
+      "open": [
+        [
+          "cuauhtemoc",
+          "L1"
+        ]
+      ],
+      "closed": [
+        [
+          "del-golfo",
+          "L1"
+        ]
+      ]
+    },
+    {
+      "node": [
+        "cuauhtemoc",
+        "L1"
+      ],
+      "g": 4.5,
+      "h": 0.9,
+      "f": 5.4,
+      "open": [
+        [
+          "cuauhtemoc",
+          "L2"
+        ]
+      ],
+      "closed": [
+        [
+          "del-golfo",
+          "L1"
+        ],
+        [
+          "cuauhtemoc",
+          "L1"
+        ]
+      ]
+    },
+    {
+      "node": [
+        "cuauhtemoc",
+        "L2"
+      ],
+      "g": 13.5,
+      "h": 0.9,
+      "f": 14.4,
+      "open": [
+        [
+          "alameda",
+          "L2"
+        ]
+      ],
+      "closed": [
+        [
+          "del-golfo",
+          "L1"
+        ],
+        [
+          "cuauhtemoc",
+          "L1"
+        ],
+        [
+          "cuauhtemoc",
+          "L2"
+        ]
+      ]
+    },
+    {
+      "node": [
+        "alameda",
+        "L2"
+      ],
+      "g": 15.5,
+      "h": 0.0,
+      "f": 15.5,
+      "open": [],
+      "closed": [
+        [
+          "del-golfo",
+          "L1"
+        ],
+        [
+          "cuauhtemoc",
+          "L1"
+        ],
+        [
+          "cuauhtemoc",
+          "L2"
+        ],
+        [
+          "alameda",
+          "L2"
+        ]
+      ]
+    }
+  ]
+}

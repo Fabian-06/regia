@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Regia{% endblock %} · Metrorrey</title>
+  <link rel="stylesheet" href="{% static 'web/css/base.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  {# Plantilla base, compartida con el Laboratorio A*. Responsable: persona 5. #}
+  {# Si cambias el nombre de un bloque, avisa a la persona 6: lab.html los usa. #}
+  <header class="site-header">
+    <a class="site-name" href="{% url 'web:index' %}">Regia</a>
+    <nav>
+      <a href="{% url 'web:index' %}">Planificador</a>
+      <a href="{% url 'lab:index' %}">Laboratorio A*</a>
+      <a href="{% url 'admin:index' %}">Centro de control</a>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
