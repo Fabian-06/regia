@@ -1,23 +1,35 @@
-"""Cliente del LLM. Responsable: persona 4.
+from django.conf import settings
+import json
+import urllib.request
 
-Todo el acceso al LLM pasa por este archivo. Así se puede cambiar de
-proveedor, o usar un modelo local, tocando un solo sitio.
-"""
 
 
 def is_available() -> bool:
-    """Indica si hay un LLM configurado (settings.LLM_API_KEY no está vacío)."""
-    raise NotImplementedError("assistant.llm.is_available() está pendiente (persona 4)")
+    """indicamos si hay un LLM disponible para usarse"""
+    api_key = getattr(settings, "LLM_API_KEY", "")
+    return bool(api_key and api_key.strip())
 
 
 def complete(system_prompt: str, user_text: str) -> str:
-    """Envía un mensaje al LLM y devuelve el texto de la respuesta.
+    """envia el system prompt y el texto del usuario al servidor local de Ollama y devuelve su respuesta en texto.
+    Además se configura como queremos que se use el LLM."""
+    base_url = getattr(settings, "LLM_API_KEY", "").strip().rstrip("/")
+    model = getattr(settings, "LLM_MODEL", "qwen3.5:2b").strip()
+    if not base_url:
+        raise RuntimeError("LLM no configurado")
+    modelo = {"model": model, 
+                "stream":False, 
+                "think":False,
+                "options": {"temperature": 0.1}, 
+                "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content":user_text}]}
+    try:
+        req = urllib.request.Request(f"{base_url}/api/chat",
+                                    data=json.dumps(modelo).encode("utf-8"),
+                                    headers={"Content-Type": "application/json"},
+                                    method="POST",)
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        return data["message"]["content"].strip()
+    except Exception as exc:
+        raise RuntimeError(f"Error al consultar el LLM: {exc}") from exc
 
-    - La clave y el modelo se leen de settings.LLM_API_KEY y settings.LLM_MODEL
-      (archivo .env). La clave nunca se escribe en el código ni se sube al
-      repositorio.
-    - Poned un tiempo máximo a la petición.
-    - Si algo falla, lanza RuntimeError; parser y explainer la capturan y
-      pasan al modo sin LLM.
-    """
-    raise NotImplementedError("assistant.llm.complete() está pendiente (persona 4)")
