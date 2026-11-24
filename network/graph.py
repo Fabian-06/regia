@@ -1,28 +1,84 @@
-"""Construcción del grafo de la red. Responsable: persona 1.
+"""Construcción del grafo de la red. Responsable: persona 1."""
+from functools import lru_cache
+import json
+from pathlib import Path
 
-Este archivo es la única puerta de entrada al módulo: el resto del proyecto
-solo llama a build_graph().
-"""
-from core.contracts import Graph
+from core.contracts import (
+    Edge,
+    EdgeKind,
+    Graph,
+    LineInfo,
+    NodeId,
+    StationInfo,
+)
+
+DATA_PATH = Path(__file__).parent / "data" / "metro.json"
 
 
+@lru_cache(maxsize=1)
 def build_graph() -> Graph:
-    """Devuelve la red de las líneas 1, 2 y 3 como un Graph.
+    """Lee network/data/metro.json una sola vez y devuelve el Graph completo."""
+    with DATA_PATH.open("r", encoding="utf-8") as f:
+        data = json.load(f)
 
-    Qué debe cumplir el resultado:
+    # 1. Estaciones
+    stations: dict[str, StationInfo] = {
+        s["id"]: StationInfo(
+            id=s["id"],
+            name=s["name"],
+            lat=float(s["lat"]),
+            lon=float(s["lon"]),
+            line_ids=tuple(s["line_ids"]),
+            underground=bool(s["underground"]),
+            has_elevator=bool(s["has_elevator"]),
+        )
+        for s in data["stations"]
+    }
 
-    - Un nodo (estación, línea) por cada línea que pasa por cada estación.
-    - Dos aristas RIDE (ida y vuelta) entre estaciones consecutivas de una línea.
-    - Dos aristas TRANSFER (ida y vuelta) entre los nodos de una misma estación,
-      solo en los tres transbordos del enunciado: Cuauhtémoc (L1-L2),
-      General I. Zaragoza (L2-L3) y Félix U. Gómez (L1-L3).
-    - "minutes" y "meters" son valores base, sin clima ni esperas: de eso se
-      encarga routing.costs con el Context.
+    # 2. Líneas
+    lines: dict[str, LineInfo] = {
+        line["id"]: LineInfo(
+            id=line["id"],
+            name=line["name"],
+            color=line["color"],
+            station_ids=tuple(line["station_ids"]),
+        )
+        for line in data["lines"]
+    }
 
-    El grafo no cambia durante la ejecución, así que conviene construirlo una
-    vez y reutilizarlo.
+    # 3. Inicializar todos los nodos (estación, línea) en edges
+    edges: dict[NodeId, list[Edge]] = {
+        (station.id, line_id): []
+        for station in stations.values()
+        for line_id in station.line_ids
+    }
 
-    Para la memoria (apartado 7): anotad de dónde sale cada dato (coordenadas,
-    tiempos, ascensores) según lo vayáis recogiendo.
-    """
-    raise NotImplementedError("network.graph.build_graph() está pendiente (persona 1)")
+    # 4. Aristas de trayecto (RIDE) en ambos sentidos
+    for seg in data["segments"]:
+        node_a: NodeId = (seg["from"], seg["line_id"])
+        node_b: NodeId = (seg["to"], seg["line_id"])
+        minutes = float(seg["minutes"])
+        meters = float(seg["meters"])
+
+        edges[node_a].append(
+            Edge(source=node_a, target=node_b, kind=EdgeKind.RIDE, minutes=minutes, meters=meters)
+        )
+        edges[node_b].append(
+            Edge(source=node_b, target=node_a, kind=EdgeKind.RIDE, minutes=minutes, meters=meters)
+        )
+
+    # 5. Aristas de transbordo (TRANSFER) en ambos sentidos
+    for tr in data["transfers"]:
+        node_a = (tr["station_id"], tr["from_line"])
+        node_b = (tr["station_id"], tr["to_line"])
+        minutes = float(tr["minutes"])
+        meters = float(tr["meters"])
+
+        edges[node_a].append(
+            Edge(source=node_a, target=node_b, kind=EdgeKind.TRANSFER, minutes=minutes, meters=meters)
+        )
+        edges[node_b].append(
+            Edge(source=node_b, target=node_a, kind=EdgeKind.TRANSFER, minutes=minutes, meters=meters)
+        )
+
+    return Graph(stations=stations, lines=lines, edges=edges)
